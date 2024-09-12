@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoviesDatabase.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,15 +8,16 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Models
 {
-    public class MovieModel
+    public class MovieModel : IEntity
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        [Required]
         public string? Name { get; set; }
-        [Required]
         public string? Description { get; set; }
-        [Required]
         public int DurationInMinutes { get; set; }
+
+        public List<ActorModel> Actors { get; set; }
+
+        public CinemaHallModel CinemaHall { get; set; }
     }
 }
