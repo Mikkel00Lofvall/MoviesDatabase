@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Models
 {
-    public class ActorModel : PersonModel, IEntity
+    public class ImageBlobModel : IEntity
     {
         [JsonIgnore]
-        public int id { get; set; }
+        public int id {  get; set; }
+        public byte[]? Data { get; set; }
+
     }
 }

@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Models
 {
-    public class ActorModel : PersonModel, IEntity
+    public class ThemeModel : IEntity
     {
         [JsonIgnore]
         public int id { get; set; }
+        public string? Name { get; set; }
+
+        public ICollection<MovieModel> Movies { get; set; } = new List<MovieModel>();
+
     }
 }
