@@ -8,7 +8,7 @@ namespace MoviesDatabase.Models
 {
     public class PersonModel
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
         
     }
 }

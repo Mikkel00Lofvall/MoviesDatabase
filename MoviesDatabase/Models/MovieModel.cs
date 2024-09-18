@@ -14,16 +14,24 @@ namespace MoviesDatabase.Models
         [JsonIgnore]
         public int id { get; set; }
 
-        public string? Name { get; set; }
-        public string? Description { get; set; }
+        public int key => id;
+
+        public string Name { get; set; }
+        public string Description { get; set; }
         public int DurationInMinutes { get; set; }
 
         [JsonIgnore]
         public List<ActorModel>? Actors { get; set; }
 
-        public List<ImageBlobModel>? ImagesBlobs { get; set; }
+        public List<ImageBlobModel> ImagesBlobs { get; set; }
+
+        public ImageBlobModel FrontPageImage { get; set; } 
 
         [JsonIgnore]
-        public ICollection<ThemeModel> Themes { get; set; }
+        public ICollection<ThemeModel>? Themes { get; set; }
+
+        public string? TrailerLink { get; set; }
+
+
     }
 }

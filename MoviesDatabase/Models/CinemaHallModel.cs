@@ -15,7 +15,7 @@ namespace MoviesDatabase.Models
         public int id { get; set; }
 
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public ICollection<Schedule> Schedules { get; set; }
     }

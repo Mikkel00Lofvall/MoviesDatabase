@@ -12,8 +12,9 @@ namespace MoviesDatabase.Models
     {
         [JsonIgnore]
         public int id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
+        [JsonIgnore]
         public ICollection<MovieModel> Movies { get; set; } = new List<MovieModel>();
 
     }

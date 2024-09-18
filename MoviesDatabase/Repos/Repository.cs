@@ -10,7 +10,7 @@ namespace MoviesDatabase.Repos
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity
     {
-        private readonly ContextDB _context;
+        protected readonly ContextDB _context;
         public Repository(ContextDB context) 
         {
             _context = context;
@@ -62,12 +62,12 @@ namespace MoviesDatabase.Repos
             }
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<(bool, string, T?)> GetWithId(int id)
+        public virtual async Task<(bool, string, T?)> GetWithId(int id)
         {
             var result = await _context.Set<T>().FirstOrDefaultAsync(x => x.id == id);
             if (result != null)

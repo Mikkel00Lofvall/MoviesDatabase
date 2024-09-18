@@ -10,7 +10,7 @@ namespace MoviesDatabase.Models
     public class Schedule
     {
         public int id { get; set; }
-        public MovieModel? Movie { get; set; }
-        public DateTime? PlayTime { get; set; }
+        public MovieModel Movie { get; set; }
+        public DateTime PlayTime { get; set; }
     }
 }

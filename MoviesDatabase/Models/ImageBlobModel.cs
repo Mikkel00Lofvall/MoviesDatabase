@@ -12,7 +12,7 @@ namespace MoviesDatabase.Models
     {
         [JsonIgnore]
         public int id {  get; set; }
-        public byte[]? Data { get; set; }
+        public byte[] Data { get; set; }
 
     }
 }

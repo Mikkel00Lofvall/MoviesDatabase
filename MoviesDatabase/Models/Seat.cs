@@ -16,6 +16,6 @@ namespace MoviesDatabase.Models
         public bool IsTaken { get; set; }
 
 
-        public CinemaHallModel? CinemaHallModel { get; set; }
+        public CinemaHallModel CinemaHallModel { get; set; }
     }
 }
