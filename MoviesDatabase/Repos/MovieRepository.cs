@@ -18,6 +18,7 @@ namespace MoviesDatabase.Repos
                 .Include(m => m.ImagesBlobs)
                 .Include(m => m.Actors)
                 .Include(m => m.FrontPageImage)
+                .Include(m => m.Details)
                 .FirstOrDefaultAsync(x => x.id == id);
 
             if (result != null)
@@ -37,6 +38,7 @@ namespace MoviesDatabase.Repos
                 .Include(m => m.ImagesBlobs)
                 .Include(m => m.Actors)
                 .Include(m => m.FrontPageImage)
+                .Include(m => m.Details)
                 .ToListAsync();
         }
 

@@ -8,7 +8,7 @@ public class ContextDB : DbContext
 {
     public DbSet<MovieModel> Movies { get; set; }
     public DbSet<ThemeModel> Themes { get; set; }
-    public DbSet<Seat> Seats { get; set; }
+    public DbSet<SeatModel> Seats { get; set; }
 
     public DbSet<CinemaHallModel> CinemaHall { get; set; }
 
@@ -16,7 +16,13 @@ public class ContextDB : DbContext
 
     public DbSet<ImageBlobModel> ImageBlobs { get; set; }
 
-    public DbSet<Schedule> Schedules { get; set; }
+    public DbSet<ScheduleModel> Schedules { get; set; }
+
+    public DbSet<DetailsModel> Details { get; set; }
+
+    public DbSet<PersonModel> Persons { get; set; }
+
+    public DbSet<DateModel> Dates { get; set; }
 
     public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
 

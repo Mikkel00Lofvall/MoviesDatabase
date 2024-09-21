@@ -1,6 +1,7 @@
 ﻿using MoviesDatabase.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -14,8 +15,14 @@ namespace MoviesDatabase.Models
         public int id { get; set; }
         public string Name { get; set; }
 
-        [JsonIgnore]
-        public ICollection<MovieModel> Movies { get; set; } = new List<MovieModel>();
+        public int MovieId { get; set; }
+
+        // Navigation Property for MovieModel (optional if you need access to full Movie details in code)
+        
+        public List<int> MovieIDs { get; set; }
+
+        [ForeignKey("MovieIDs")]
+        public List<MovieModel> Movies { get; set; } = new List<MovieModel>();
 
     }
 }
