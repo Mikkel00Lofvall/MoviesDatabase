@@ -18,6 +18,33 @@ namespace MoviesDatabase.Repos
             this.MovieRepository = repo;
         }
 
+        public async Task<(bool, string, IEnumerable<ScheduleModel>)> GetAll()
+        {
+            try
+            {
+                var schedules = await _context.Set<ScheduleModel>()
+                    .Include(m => m.Date)
+                    .ToListAsync();
+
+                if (schedules.Count > 0)
+                {
+                    return (true, "", schedules);
+                }
+
+                else
+                {
+                    return (false, "No Schedules in DB", null);
+                }
+
+
+            }
+            catch (Exception ex) 
+            {
+                return (false, ex.Message, null);
+            }
+
+        }
+
         public async Task<(bool, string, IEnumerable<ScheduleModel>)> GetSchedulesByMovieID(int id)
         {
             try
