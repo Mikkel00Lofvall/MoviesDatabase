@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using MoviesDatabase.Models;
 using MoviesDatabase.Interfaces;
+using Microsoft.Identity.Client;
+using MoviesDatabase.Models.Test;
 
 public class ContextDB : DbContext
 {
@@ -23,6 +25,8 @@ public class ContextDB : DbContext
     public DbSet<PersonModel> Persons { get; set; }
 
     public DbSet<DateModel> Dates { get; set; }
+
+    public DbSet<TestModel> Tests { get; set; }
 
     public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
 

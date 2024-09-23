@@ -8,12 +8,17 @@ using Microsoft.EntityFrameworkCore.Design;
 
 public class ContextDBFactory : IDesignTimeDbContextFactory<ContextDB>
 {
+    private readonly string _connectionString;
+
+    public ContextDBFactory(string ConnectionString) 
+    {
+        this._connectionString = ConnectionString;
+    }
+
     public ContextDB CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ContextDB>();
-
-        // Replace with your actual connection string
-        optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MovieProject;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        optionsBuilder.UseSqlServer(_connectionString);
 
         return new ContextDB(optionsBuilder.Options);
     }
