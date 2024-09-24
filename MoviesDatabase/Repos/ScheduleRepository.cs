@@ -14,12 +14,12 @@ namespace MoviesDatabase.Repos
 {
     public class ScheduleRepository : Repository<ScheduleModel>
     {
-        private readonly MovieRepository MovieRepository;
-        private readonly IRepository<CinemaHallModel> CinemaHallRepository;
+        private readonly MovieRepository _MovieRepository;
+        private readonly IRepository<CinemaHallModel> _CinemaHallRepository;
         public ScheduleRepository(ContextDB context, MovieRepository movieRepo, IRepository<CinemaHallModel> cinmaRepo) : base(context) 
         {
-            this.MovieRepository = movieRepo;
-            this.CinemaHallRepository = cinmaRepo;
+            this._MovieRepository = movieRepo;
+            this._CinemaHallRepository = cinmaRepo;
         }
 
         public async Task<(bool, string, IEnumerable<ScheduleModel>)> GetAll()
@@ -30,22 +30,13 @@ namespace MoviesDatabase.Repos
                     .Include(m => m.Date)
                     .ToListAsync();
 
-                if (schedules.Count > 0)
-                {
-                    return (true, "", schedules);
-                }
+                if (schedules.Count > 0) return (true, "", schedules);
 
-                else
-                {
-                    return (false, "No Schedules in DB", null);
-                }
+                else return (false, "No Schedules in DB", null);
 
 
             }
-            catch (Exception ex) 
-            {
-                return (false, ex.Message, null);
-            }
+            catch (Exception ex) { return (false, ex.Message, null); }
 
         }
 
@@ -60,10 +51,7 @@ namespace MoviesDatabase.Repos
 
                 return (true, "", result);
             }
-            catch (Exception ex) 
-            { 
-                return (false, ex.Message, null);
-            }
+            catch (Exception ex) { return (false, ex.Message, null); }
 
         }
 
@@ -92,16 +80,31 @@ namespace MoviesDatabase.Repos
                     return (true, "");
                 }
 
-                else
-                {
-                    return (false, "No Hall With That ID");
-                }
+                else return (false, "No Hall With That ID");
             }
-            catch (Exception ex) 
-            {
-                return (false, ex.Message);
-            }
+            catch (Exception ex) { return (false, ex.Message); }
 
+        }
+
+        public async Task<(bool, string, object)> GetMovieAndScheduleByID(int id)
+        {
+            try
+            {
+                var schedule = await _context.Set<ScheduleModel>()
+                    .Include(m => m.Date)
+                    .FirstOrDefaultAsync(x => x.id == id);
+
+                if (schedule != null)
+                {
+                    (bool result, string message, var movie) = await _MovieRepository.GetWithId(schedule.MovieId);
+                    if (result) return (true, "", new { Movie = movie, Schedule = schedule });
+
+                    else return (false, message, null);
+                }
+
+                else return (false, "No Schedule By That ID in Db", null);
+            }
+            catch (Exception ex) { return (false, ex.Message, null); }
         }
 
         /*public async Task<(bool, string)> UpdateMovieWithSchedule(int movieID, DateModel date)

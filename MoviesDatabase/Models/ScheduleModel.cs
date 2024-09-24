@@ -12,7 +12,6 @@ namespace MoviesDatabase.Models
 {
     public class ScheduleModel : IEntity
     {
-        [JsonIgnore]
         public int id { get; set; }
 
         public int MovieId { get; set; }

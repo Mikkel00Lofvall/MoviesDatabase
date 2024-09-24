@@ -11,5 +11,11 @@ namespace MoviesDatabase.DTO
     {
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public int RowAmount { get; set; }
+
+        [Required]
+        public int SeatsOnARow { get; set; }
     }
 }

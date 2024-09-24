@@ -16,7 +16,7 @@ namespace MoviesDatabase.Repos
             _context = context;
         }
 
-        public async Task<(bool, string)> Create(T entity)
+        public virtual async Task<(bool, string)> Create(T entity)
         {
             var result = await GetAll();
             bool found = result.Any(x => x == entity);
@@ -39,7 +39,7 @@ namespace MoviesDatabase.Repos
             }
         }
 
-        public async Task<(bool, string)> Delete(T entity)
+        public virtual async Task<(bool, string)> Delete(T entity)
         {
             var result = await GetAll();
             bool found = result.Any(x => x == entity);

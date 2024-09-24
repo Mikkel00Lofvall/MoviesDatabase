@@ -12,7 +12,6 @@ namespace MoviesDatabase.Models
 {
     public class MovieModel : IEntity
     {
-        [JsonIgnore]
         public int id { get; set; }
 
         public int key => id;

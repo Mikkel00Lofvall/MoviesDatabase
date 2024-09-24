@@ -11,7 +11,6 @@ namespace MoviesDatabase.Models
 {
     public class SeatModel : IEntity
     {
-        [JsonIgnore]
         public int id { get; set; }
 
         public bool IsTaken { get; set; }
@@ -20,9 +19,5 @@ namespace MoviesDatabase.Models
 
         public int RowNumber { get; set; }
 
-        public int CinemaHallID { get; set; }
-
-        [ForeignKey("CinemaHallID")]
-        public CinemaHallModel CinemaHallModel { get; set; }
     }
 }
