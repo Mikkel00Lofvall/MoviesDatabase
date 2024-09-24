@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Identity.Client;
+using MoviesDatabase.DTO;
+using MoviesDatabase.Interfaces;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -13,9 +15,11 @@ namespace MoviesDatabase.Repos
     public class ScheduleRepository : Repository<ScheduleModel>
     {
         private readonly MovieRepository MovieRepository;
-        public ScheduleRepository(ContextDB context, MovieRepository repo) : base(context) 
+        private readonly IRepository<CinemaHallModel> CinemaHallRepository;
+        public ScheduleRepository(ContextDB context, MovieRepository movieRepo, IRepository<CinemaHallModel> cinmaRepo) : base(context) 
         {
-            this.MovieRepository = repo;
+            this.MovieRepository = movieRepo;
+            this.CinemaHallRepository = cinmaRepo;
         }
 
         public async Task<(bool, string, IEnumerable<ScheduleModel>)> GetAll()
@@ -63,7 +67,44 @@ namespace MoviesDatabase.Repos
 
         }
 
-        public async Task<(bool, string)> UpdateMovieWithSchedule(int movieID, DateModel date)
+        public async Task<(bool, string)> CreateScheduleAndInsertIntoHall(SchedulesDTO schedule)
+        {
+            try
+            {
+                ScheduleModel scheduleModel = new ScheduleModel()
+                {
+                    MovieId = schedule.MovieId,
+                    Date = schedule.Date,
+                    HallId = schedule.HallId,
+                };
+
+                _context.Schedules.Add(scheduleModel);
+                await _context.SaveChangesAsync();
+
+                var hall = await _context.CinemaHall
+                              .Include(h => h.Schedules)
+                              .FirstOrDefaultAsync(h => h.id == schedule.HallId);
+
+                if (hall != null)
+                {
+                    hall.Schedules.Add(scheduleModel);
+                    await _context.SaveChangesAsync();
+                    return (true, "");
+                }
+
+                else
+                {
+                    return (false, "No Hall With That ID");
+                }
+            }
+            catch (Exception ex) 
+            {
+                return (false, ex.Message);
+            }
+
+        }
+
+        /*public async Task<(bool, string)> UpdateMovieWithSchedule(int movieID, DateModel date)
         {
             try
             {
@@ -99,6 +140,7 @@ namespace MoviesDatabase.Repos
             {
                 return (false, ex.Message);
             }
-        } 
+        } */
+
     }
 }

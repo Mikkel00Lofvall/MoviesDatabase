@@ -12,7 +12,6 @@ namespace MoviesDatabase.Models
 {
     public class CinemaHallModel : IEntity
     {
-        [JsonIgnore]
         public int id { get; set; }
 
         [Required]
@@ -22,6 +21,6 @@ namespace MoviesDatabase.Models
         public List<int>? SchedulesIDs { get; set; }
 
         [ForeignKey("SchedulesIDs")]
-        public ICollection<ScheduleModel>? Schedules { get; set; }
+        public ICollection<ScheduleModel>? Schedules { get; set; } = new List<ScheduleModel>();
     }
 }

@@ -15,11 +15,8 @@ namespace MoviesDatabase.Models
         public int id { get; set; }
         public string Name { get; set; }
 
-        public int MovieId { get; set; }
-
-        // Navigation Property for MovieModel (optional if you need access to full Movie details in code)
         
-        public List<int> MovieIDs { get; set; }
+        public List<int>? MovieIDs { get; set; }
 
         [ForeignKey("MovieIDs")]
         public List<MovieModel> Movies { get; set; } = new List<MovieModel>();

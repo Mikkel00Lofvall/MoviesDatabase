@@ -20,5 +20,8 @@ namespace MoviesDatabase.Models
         [ForeignKey("MovieId")]
         public MovieModel Movie { get; set; }
         public DateModel Date { get; set; }
+
+        public int HallId { get; set; }
+
     }
 }
