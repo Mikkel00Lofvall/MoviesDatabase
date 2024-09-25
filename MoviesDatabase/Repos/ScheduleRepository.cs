@@ -86,7 +86,7 @@ namespace MoviesDatabase.Repos
 
         }
 
-        public async Task<(bool, string, object)> GetMovieAndScheduleByID(int id)
+        public async Task<(bool, string, ScheduleModel, MovieModel)> GetMovieAndScheduleByID(int id)
         {
             try
             {
@@ -97,14 +97,14 @@ namespace MoviesDatabase.Repos
                 if (schedule != null)
                 {
                     (bool result, string message, var movie) = await _MovieRepository.GetWithId(schedule.MovieId);
-                    if (result) return (true, "", new { Movie = movie, Schedule = schedule });
+                    if (result) return (true, "", schedule, movie);
 
-                    else return (false, message, null);
+                    else return (false, message, null, null);
                 }
 
-                else return (false, "No Schedule By That ID in Db", null);
+                else return (false, "No Schedule By That ID in Db", null, null);
             }
-            catch (Exception ex) { return (false, ex.Message, null); }
+            catch (Exception ex) { return (false, ex.Message, null, null); }
         }
 
         /*public async Task<(bool, string)> UpdateMovieWithSchedule(int movieID, DateModel date)

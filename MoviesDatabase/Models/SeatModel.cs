@@ -19,5 +19,10 @@ namespace MoviesDatabase.Models
 
         public int RowNumber { get; set; }
 
+        public int HallId { get; set; }
+
+        [JsonIgnore]
+        [ForeignKey("HallId")]
+        public CinemaHallModel CinemaHall { get; set; }
     }
 }

@@ -17,15 +17,13 @@ namespace MoviesDatabase.Models
         [Required]
         public string Name { get; set; }
 
-
         public List<int>? SchedulesIDs { get; set; }
 
         [ForeignKey("SchedulesIDs")]
         public ICollection<ScheduleModel>? Schedules { get; set; } = new List<ScheduleModel>();
 
-        public List<int>? SeatIDs { get; set; }
+        public ICollection<SeatModel> Seats { get; set; } = new List<SeatModel>();
 
-        [ForeignKey("SchedulesIDs")]
-        public ICollection<SeatModel>? Seats { get; set; } = new List<SeatModel>();
+        public int SeatsOnRow { get; set; }
     }
 }

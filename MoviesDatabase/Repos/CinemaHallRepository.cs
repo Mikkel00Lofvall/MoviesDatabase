@@ -20,25 +20,19 @@ namespace MoviesDatabase.Repos
                 .ToListAsync();
         }
 
-        public async Task<(bool, string, object)> GetHallBySchedule(int scheduleId)
+        public async Task<(bool, string, CinemaHallModel)> GetHallBySchedule(int scheduleId)
         {
             if (scheduleId != null) 
             {
                 try
                 {
                     var result = await _context.Set<CinemaHallModel>()
-                        .Include(h => h.SeatIDs)
+                        .Include(h => h.Seats)
                         .FirstOrDefaultAsync(x => x.Schedules.Any(s => s.id == scheduleId));
 
                     if (result != null)
                     {
-                        var seats = await _context.Set<SeatModel>()
-                            .Where(seat => result.SeatIDs.Contains(seat.id))
-                            .ToListAsync();
-
-                        if (seats != null) return (true, "", new { result, seats });
-                        else return (false, "No Seats for this Hall", null);
-
+                        return (true, "", result);
                     }
 
                     else return (false, "No CinemaHall With That ID in DB", null);
