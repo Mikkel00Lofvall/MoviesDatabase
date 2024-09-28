@@ -31,11 +31,9 @@ namespace MoviesDatabase.Models
 
         public ImageBlobModel FrontPageImage { get; set; } 
 
-        [JsonIgnore]
-        public ICollection<ThemeModel>? Themes { get; set; }
+        public ICollection<MovieThemeModel>? MovieThemeConnector { get; set; }
 
         public string? TrailerLink { get; set; }
-
 
     }
 }

@@ -11,15 +11,12 @@ namespace MoviesDatabase.Models
 {
     public class ThemeModel : IEntity
     {
-        [JsonIgnore]
         public int id { get; set; }
         public string Name { get; set; }
 
         
-        public List<int>? MovieIDs { get; set; }
+        public List<MovieThemeModel>? MovieThemeConnector { get; set; }
 
-        [ForeignKey("MovieIDs")]
-        public List<MovieModel> Movies { get; set; } = new List<MovieModel>();
 
     }
 }

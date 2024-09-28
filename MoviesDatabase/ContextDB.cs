@@ -30,6 +30,8 @@ public class ContextDB : DbContext
 
     public DbSet<AdminUserModel> AdminUsers { get; set; }
 
+    public DbSet<MovieThemeModel> MovieThemeConnector { get; set; }
+
 
     public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
 
