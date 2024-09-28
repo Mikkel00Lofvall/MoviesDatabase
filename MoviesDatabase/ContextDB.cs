@@ -28,6 +28,9 @@ public class ContextDB : DbContext
 
     public DbSet<TestModel> Tests { get; set; }
 
+    public DbSet<AdminUserModel> AdminUsers { get; set; }
+
+
     public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
