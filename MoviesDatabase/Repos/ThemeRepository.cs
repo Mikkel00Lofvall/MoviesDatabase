@@ -14,6 +14,35 @@ namespace MoviesDatabase.Repos
     {
         public ThemeRepository(ContextDB context) : base(context) { }
 
+        public async Task<(bool, string)> Delete(int ThemeID)
+        {
+            try
+            {
+                var theme = await _context.Themes.FindAsync(ThemeID);
+
+                if (theme == null)
+                {
+                    return (false, "Theme not found.");
+                }
+
+                var movieThemeEntries = await _context.MovieThemeConnector
+                    .Where(mt => mt.ThemeID == ThemeID)
+                    .ToListAsync();
+
+                if (movieThemeEntries.Any())
+                {
+                    _context.MovieThemeConnector.RemoveRange(movieThemeEntries);
+                    await _context.SaveChangesAsync();
+                }
+
+                _context.Themes.Remove(theme);
+                await _context.SaveChangesAsync();
+
+                return (true, "Theme and related associations deleted successfully.");
+            }
+            catch (Exception ex) { return (false, ex.Message); }
+        }
+
         public async Task<(bool, string)> UpdateMovieWithThemes(int MovieID, UpdateThemeDTO ThemeDTO)
         {
             try
