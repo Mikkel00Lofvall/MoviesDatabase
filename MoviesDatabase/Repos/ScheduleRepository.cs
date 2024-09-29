@@ -107,43 +107,31 @@ namespace MoviesDatabase.Repos
             catch (Exception ex) { return (false, ex.Message, null, null); }
         }
 
-        /*public async Task<(bool, string)> UpdateMovieWithSchedule(int movieID, DateModel date)
+        public async Task<(bool, string)> Delete(int id)
         {
             try
             {
-                (bool result, string message, var movie) = await MovieRepository.GetWithId(movieID);
-                if (result)
-                {
-                    if (movie != null)
-                    {
+                var schedule = await _context.Set<ScheduleModel>()
+                    .Include(m => m.Date)
+                    .FirstOrDefaultAsync(x => x.id == id);
 
-                        _context.Dates.Add(date);
+                if (schedule == null) return (false, "No Schedule in Database with that id");
 
-                        await _context.SaveChangesAsync();
+                var hall = await _context.CinemaHall
+                    .Include(h => h.Schedules)
+                    .FirstOrDefaultAsync(h => h.id == schedule.HallId);
 
-                        ScheduleModel schedule = new ScheduleModel()
-                        {
-                            MovieId = movieID,
-                            Date = date
-                        };
+                hall.Schedules.Remove(schedule);
 
-                        _context.Schedules.Add(schedule);
+                _context.Schedules.Remove(schedule);
 
-                        await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                        return (true, "");
-                    }
+                return (true, "");
 
-                    return (true, "no movie with that id in database");
-                }
-
-                return (false, message);
             }
-            catch (Exception ex)
-            {
-                return (false, ex.Message);
-            }
-        } */
 
+            catch(Exception ex) { return (false, ex.Message); }
+        }
     }
 }
