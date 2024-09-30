@@ -70,5 +70,47 @@ namespace MoviesDatabase.Repos
                 return (false, $"Failure: Already Exist in db!");
             }
         }
+
+
+        public async Task<(bool, string)> Delete(int CinemaHallID)
+        {
+            try
+            {
+                var hall = await _context.Set<CinemaHallModel>()
+                    .Include(m => m.Schedules)
+                    .Include(m => m.Seats)
+                    .FirstOrDefaultAsync(x => x.id == CinemaHallID);
+
+                if (hall == null) return (false, "No Cinema Room in Database with that id");
+
+                ICollection<ScheduleModel> schedules = await _context.Schedules
+                    .Where(x => x.HallId == CinemaHallID)
+                    .ToListAsync();
+
+                foreach (ScheduleModel schedule in schedules)
+                {
+                    _context.Schedules.Remove(schedule);
+                }
+
+                ICollection<SeatModel> seats = await _context.Seats
+                    .Where(s => s.HallId == CinemaHallID)
+                    .ToListAsync();
+
+                foreach (SeatModel seat in seats)
+                {
+                    _context.Seats.Remove(seat);
+                }
+
+                _context.CinemaHall.Remove(hall);
+
+
+                await _context.SaveChangesAsync();
+
+                return (true, "");
+
+            }
+
+            catch (Exception ex) { return (false, ex.Message); }
+        }
     }
 }
