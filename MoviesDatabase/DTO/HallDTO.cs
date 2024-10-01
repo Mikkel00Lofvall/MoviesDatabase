@@ -11,7 +11,6 @@ namespace MoviesDatabase.DTO
     {
         public int id { get; set; }
         public string Name { get; set; }
-        public ICollection<SeatModel> Seats { get; set; }
         public int SeatsOnRow { get; set; }
     }
 }

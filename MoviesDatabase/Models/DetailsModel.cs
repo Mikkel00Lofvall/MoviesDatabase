@@ -17,7 +17,7 @@ namespace MoviesDatabase.Models
 
         public int DurationInMinutes { get; set; }
 
-        public PersonModel? DirectedBy {  get; set; }
+        public string DirectedBy {  get; set; }
 
         public string Studio { get; set; }
     }

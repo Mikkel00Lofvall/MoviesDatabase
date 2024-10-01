@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MoviesDatabase.Repos
 {
@@ -55,11 +56,21 @@ namespace MoviesDatabase.Repos
                 if (movie == null) return (false, "No Movie with that id in database");
 
                 ICollection<ScheduleModel> schedules = await _context.Schedules
+                    .Include(s => s.Seats)
+                    .Include(s => s.Date)
                     .Where(x => x.MovieId == MovieID)
                     .ToListAsync();
 
+                
+
                 foreach (ScheduleModel schedule in schedules) 
                 {
+                    _context.Dates.Remove(schedule.Date);
+                    foreach (SeatModel Seat in schedule.Seats)
+                    {
+                        _context.Seats.Remove(Seat);
+                    }
+
                     _context.Schedules.Remove(schedule);
                 }
 

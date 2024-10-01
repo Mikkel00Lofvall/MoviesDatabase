@@ -30,12 +30,25 @@ public class ContextDB : DbContext
 
     public DbSet<MovieThemeModel> MovieThemeConnector { get; set; }
 
+    public DbSet<TicketModel> Tickets { get; set; }
+
 
     public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AdminUserModel>().HasData(
+            new AdminUserModel
+            {
+                id = 1,
+                Username = "admin",
+                Password = "passw0rd"
+            }
+        );
+
         base.OnModelCreating(modelBuilder);
+
+
     }
 
 }

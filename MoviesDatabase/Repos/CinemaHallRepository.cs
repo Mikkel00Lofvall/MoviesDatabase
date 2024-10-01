@@ -16,7 +16,6 @@ namespace MoviesDatabase.Repos
         public async Task<IEnumerable<CinemaHallModel>> GetAll()
         {
             return await _context.Set<CinemaHallModel>()
-                .Include(h => h.Seats)
                 .ToListAsync();
         }
 
@@ -27,7 +26,6 @@ namespace MoviesDatabase.Repos
                 try
                 {
                     var result = await _context.Set<CinemaHallModel>()
-                        .Include(h => h.Seats)
                         .FirstOrDefaultAsync(x => x.Schedules.Any(s => s.id == scheduleId));
 
                     if (result != null)
@@ -78,7 +76,6 @@ namespace MoviesDatabase.Repos
             {
                 var hall = await _context.Set<CinemaHallModel>()
                     .Include(m => m.Schedules)
-                    .Include(m => m.Seats)
                     .FirstOrDefaultAsync(x => x.id == CinemaHallID);
 
                 if (hall == null) return (false, "No Cinema Room in Database with that id");
@@ -90,15 +87,14 @@ namespace MoviesDatabase.Repos
                 foreach (ScheduleModel schedule in schedules)
                 {
                     _context.Schedules.Remove(schedule);
-                }
+                    ICollection<SeatModel> seats = await _context.Seats
+                        .Where(s => s.ScheduleID == schedule.id)
+                        .ToListAsync();
 
-                ICollection<SeatModel> seats = await _context.Seats
-                    .Where(s => s.HallId == CinemaHallID)
-                    .ToListAsync();
-
-                foreach (SeatModel seat in seats)
-                {
-                    _context.Seats.Remove(seat);
+                    foreach (SeatModel seat in seats)
+                    {
+                        _context.Seats.Remove(seat);
+                    }
                 }
 
                 _context.CinemaHall.Remove(hall);

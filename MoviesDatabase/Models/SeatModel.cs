@@ -13,16 +13,10 @@ namespace MoviesDatabase.Models
     {
         public int id { get; set; }
 
-        public bool IsTaken { get; set; }
-
-        public string RowName {  get; set; }
+        public string RowName { get; set; }
 
         public int RowNumber { get; set; }
 
-        public int HallId { get; set; }
-
-        [JsonIgnore]
-        [ForeignKey("HallId")]
-        public CinemaHallModel CinemaHall { get; set; }
+        public int ScheduleID { get; set; }
     }
 }

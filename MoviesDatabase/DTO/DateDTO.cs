@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MoviesDatabase.Models
+namespace MoviesDatabase.DTO
 {
-    public class DateModel
+    public class DateDTO
     {
-        public int id {  get; set; }
-
         public int Year { get; set; }
         public int Month { get; set; }
         public int Day { get; set; }

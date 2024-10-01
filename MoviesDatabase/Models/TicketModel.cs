@@ -14,18 +14,10 @@ namespace MoviesDatabase.Models
         public int id {  get; set; }
         public int Price {get; set; }
 
-        public int MovieID { get; set; }
-
-        [ForeignKey("MovieID")]
-        public MovieModel Movies { get; set; }
         public int SeatID { get; set; }
 
-        [ForeignKey("SeatID")]
-        public SeatModel Seat { get; set; }
-        public int HallID { get; set; }
+        public int ScheduleID { get; set; }
 
-        [ForeignKey("HallID")]
-        public SeatModel Hall { get; set; }
-
+        public int DateID { get; set; }
     }
 }

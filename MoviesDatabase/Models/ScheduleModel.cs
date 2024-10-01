@@ -22,5 +22,9 @@ namespace MoviesDatabase.Models
 
         public int HallId { get; set; }
 
+        public ICollection<SeatModel> Seats { get; set; } = new List<SeatModel>();
+
+        public ICollection<TicketModel> Tickets { get; set; } = new List<TicketModel>();
+
     }
 }

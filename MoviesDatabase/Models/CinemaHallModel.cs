@@ -22,7 +22,7 @@ namespace MoviesDatabase.Models
         [ForeignKey("SchedulesIDs")]
         public ICollection<ScheduleModel>? Schedules { get; set; } = new List<ScheduleModel>();
 
-        public ICollection<SeatModel> Seats { get; set; } = new List<SeatModel>();
+        public int RowsOfSeat { get; set; }
 
         public int SeatsOnRow { get; set; }
     }

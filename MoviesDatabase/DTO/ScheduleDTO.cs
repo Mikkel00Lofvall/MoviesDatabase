@@ -10,8 +10,12 @@ namespace MoviesDatabase.DTO
     public class ScheduleDTO
     {
         public int id { get; set; }
-        public DateModel date { get; set; }
+        public DateDTO date { get; set; }
 
         public int MovieID { get; set; }
+
+        public ICollection<SeatModel> Seats { get; set; }
+
+        public ICollection<TicketModel> Tickets { get; set; }
     }
 }

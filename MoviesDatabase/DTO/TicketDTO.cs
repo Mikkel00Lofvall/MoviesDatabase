@@ -8,8 +8,8 @@ namespace MoviesDatabase.DTO
 {
     public class TicketDTO
     {
-        public int MovieID { get; set; }
-        public int HallID;
+        public int ScheduleID { get; set; }
         public int SeatID { get; set; }
+        public int DateID { get; set; }
     }
 }
