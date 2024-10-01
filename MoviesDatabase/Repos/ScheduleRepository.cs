@@ -6,6 +6,7 @@ using MoviesDatabase.Interfaces;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -120,6 +121,12 @@ namespace MoviesDatabase.Repos
                 var hall = await _context.CinemaHall
                     .Include(h => h.Schedules)
                     .FirstOrDefaultAsync(h => h.id == schedule.HallId);
+
+
+                var date = await _context.Dates
+                    .FirstOrDefaultAsync(x => x.id == schedule.Date.id);
+
+                if (date != null) { _context.Dates.Remove(date); }
 
                 hall.Schedules.Remove(schedule);
 

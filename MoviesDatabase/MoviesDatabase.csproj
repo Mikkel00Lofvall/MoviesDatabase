@@ -19,10 +19,45 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.6.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.9.2" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="C:\Users\mikke\.nuget\packages\mstest.testadapter\3.6.0\build\net8.0\\Microsoft.TestPlatform.AdapterUtilities.dll" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="C:\Users\mikke\.nuget\packages\mstest.testadapter\3.6.0\build\net8.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="C:\Users\mikke\.nuget\packages\mstest.testadapter\3.6.0\build\net8.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="C:\Users\mikke\.nuget\packages\mstest.testadapter\3.6.0\build\net8.0\\Microsoft.TestPlatform.AdapterUtilities.dll" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="C:\Users\mikke\.nuget\packages\mstest.testadapter\3.6.0\build\net8.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="C:\Users\mikke\.nuget\packages\mstest.testadapter\3.6.0\build\net8.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" />
   </ItemGroup>
 
 </Project>

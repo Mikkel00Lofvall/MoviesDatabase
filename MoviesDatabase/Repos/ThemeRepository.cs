@@ -14,6 +14,7 @@ namespace MoviesDatabase.Repos
     {
         public ThemeRepository(ContextDB context) : base(context) { }
 
+
         public async Task<(bool, string)> Delete(int ThemeID)
         {
             try
