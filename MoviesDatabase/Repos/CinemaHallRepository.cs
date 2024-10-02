@@ -11,7 +11,15 @@ namespace MoviesDatabase.Repos
 {
     public class CinemaHallRepository : Repository<CinemaHallModel>
     {
-        public CinemaHallRepository(ContextDB context) : base(context) { }
+
+        public ContextDB _context { get; }
+        private ContextDB _TestContext { get; }
+
+        public CinemaHallRepository(ContextDB context, ContextDB testContext = null) : base(context)
+        {
+            _context = context;
+            this._TestContext = testContext;
+        }
 
         public async Task<IEnumerable<CinemaHallModel>> GetAll()
         {
