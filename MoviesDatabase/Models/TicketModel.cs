@@ -19,5 +19,8 @@ namespace MoviesDatabase.Models
         public int ScheduleID { get; set; }
 
         public int DateID { get; set; }
+
+        public string Email { get; set; }
+        public int PhoneNumber { get; set; }
     }
 }

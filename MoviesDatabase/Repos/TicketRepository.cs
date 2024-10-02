@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoviesDatabase.DTO;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,29 @@ namespace MoviesDatabase.Repos
             _ScheduleRepository = scheduleRepo;
         }
 
-        public async Task<(bool, string, List<TicketModel>)> GetAllWithScheduleID(int scheduleID)
+        public async Task<(bool, string, List<TicketDTO>)> GetAllWithScheduleID(int scheduleID)
         {
             try
             {
+                List<TicketDTO> ticketDTOs = new List<TicketDTO>();
                 var Tickets = await _context.Set<TicketModel>()
                     .Where(t => t.ScheduleID == scheduleID)
                     .ToListAsync();
 
-                return (true, "", Tickets);
+                foreach (TicketModel ticket in Tickets)
+                {
+                    TicketDTO ticketDTO = new TicketDTO()
+                    {
+                        DateID = ticket.DateID,
+                        ScheduleID = ticket.ScheduleID,
+                        SeatID = ticket.SeatID,
+                    };
+
+                    ticketDTOs.Add(ticketDTO);
+                }
+
+
+                return (true, "", ticketDTOs);
             }
 
             catch(Exception ex)
