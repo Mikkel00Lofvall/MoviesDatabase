@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoviesDatabase.DTO;
+using MoviesDatabase.Interfaces;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Repos
 {
-    public class TicketRepository : Repository<TicketModel>
+    public class TicketRepository : Repository<TicketModel>, ITicketRepository
     {
         private readonly ScheduleRepository _ScheduleRepository;
         public TicketRepository(ContextDB context, ScheduleRepository scheduleRepo) : base(context) 
@@ -89,11 +90,25 @@ namespace MoviesDatabase.Repos
             else return (false, "No Tickets");
         }
 
-
-        public override async Task<(bool, string)> Delete(TicketModel ticket)
+        public async Task<(bool, string)> Delete(int id)
         {
-            return (true, null);
-        }
+            try
+            {
+                var ticket = await _context.Set<TicketModel>()
+                    .FirstOrDefaultAsync(t => t.id == id);
 
+                var schedule = await _context.Set<ScheduleModel>()
+                    .FirstOrDefaultAsync(s => s.Tickets.Contains(ticket));
+
+                if (schedule != null) schedule.Tickets.Remove(ticket);
+
+                _context.Remove(ticket);
+
+                await _context.SaveChangesAsync();
+
+                return (true, "");
+            }
+            catch (Exception ex) { return (false, ex.Message); }
+        }
     }
 }

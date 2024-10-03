@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using MoviesDatabase.Interfaces;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -9,22 +10,14 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Repos
 {
-    public class CinemaHallRepository : Repository<CinemaHallModel>
+    public class CinemaHallRepository : Repository<CinemaHallModel>, ICinemaHallRepository
     {
 
         public ContextDB _context { get; }
-        private ContextDB _TestContext { get; }
 
-        public CinemaHallRepository(ContextDB context, ContextDB testContext = null) : base(context)
+        public CinemaHallRepository(ContextDB context) : base(context)
         {
             _context = context;
-            this._TestContext = testContext;
-        }
-
-        public async Task<IEnumerable<CinemaHallModel>> GetAll()
-        {
-            return await _context.Set<CinemaHallModel>()
-                .ToListAsync();
         }
 
         public async Task<(bool, string, CinemaHallModel)> GetHallBySchedule(int scheduleId)
@@ -55,8 +48,10 @@ namespace MoviesDatabase.Repos
 
         public override async Task<(bool, string)> Create(CinemaHallModel cinema)
         {
-            var result = await GetAll();
-            bool found = result.Any(x => x == cinema);
+            (bool result, string message, ICollection<CinemaHallModel> halls) = await GetAll();
+
+            if (!result) return (false, message);
+            bool found = halls.Any(x => x == cinema);
             if (!found)
             {
                 try

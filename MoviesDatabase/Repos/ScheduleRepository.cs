@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Repos
 {
-    public class ScheduleRepository : Repository<ScheduleModel>
+    public class ScheduleRepository : Repository<ScheduleModel>, IScheduleRepository
     {
         private readonly MovieRepository _MovieRepository;
         private readonly IRepository<CinemaHallModel> _CinemaHallRepository;
@@ -25,7 +25,7 @@ namespace MoviesDatabase.Repos
             this._CinemaHallRepository = cinmaRepo;
         }
 
-        public async Task<(bool, string, IEnumerable<ScheduleModel>)> GetAll()
+        public async Task<(bool, string, ICollection<ScheduleModel>)> GetAll()
         {
             try
             {

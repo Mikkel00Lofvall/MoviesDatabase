@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoviesDatabase.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace MoviesDatabase.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<(bool, string, ICollection<T>)> GetAll();
         Task<(bool, string, T?)> GetWithId(int id);
         Task<(bool, string)> Create(T entity);
         Task<(bool, string)> Delete(T entity);

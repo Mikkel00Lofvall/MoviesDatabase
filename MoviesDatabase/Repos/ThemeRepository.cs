@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoviesDatabase.DTO;
+using MoviesDatabase.Interfaces;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MoviesDatabase.Repos
 {
-    public class ThemeRepository : Repository<ThemeModel>
+    public class ThemeRepository : Repository<ThemeModel>, IThemeRepository
     {
         public ThemeRepository(ContextDB context) : base(context) { }
 
@@ -125,5 +126,6 @@ namespace MoviesDatabase.Repos
             }
             catch (Exception ex) { return (false, ex.Message, null); }
         }
+
     }
 }

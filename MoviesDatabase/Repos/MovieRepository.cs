@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoviesDatabase.Interfaces;
 using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MoviesDatabase.Repos
 {
-    public class MovieRepository : Repository<MovieModel>
+    public class MovieRepository : Repository<MovieModel>, IMovieRepository
     {
         public MovieRepository(ContextDB context) : base(context) { }
 
@@ -33,14 +34,20 @@ namespace MoviesDatabase.Repos
         }
 
 
-        public override async Task<IEnumerable<MovieModel>> GetAll()
+        public async Task<(bool, string, ICollection<MovieModel>)> GetAll()
         {
-            return await _context.Set<MovieModel>()
-                .Include(m => m.ImagesBlobs)
-                .Include(m => m.Actors)
-                .Include(m => m.FrontPageImage)
-                .Include(m => m.Details)
-                .ToListAsync();
+            try
+            {
+                var Movies = await _context.Set<MovieModel>()
+                    .Include(m => m.ImagesBlobs)
+                    .Include(m => m.Actors)
+                    .Include(m => m.FrontPageImage)
+                    .Include(m => m.Details)
+                    .ToListAsync();
+
+                return (true, "", Movies);
+            }
+            catch (Exception ex) { return (false, ex.Message,null); }
         }
 
 

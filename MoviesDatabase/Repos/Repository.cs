@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoviesDatabase.Interfaces;
+using MoviesDatabase.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,10 @@ namespace MoviesDatabase.Repos
 
         public virtual async Task<(bool, string)> Create(T entity)
         {
-            var result = await GetAll();
-            bool found = result.Any(x => x == entity);
+            (bool result, string message, ICollection<T> entities) = await GetAll();
+
+            if (!result) return (false, message);
+            bool found = entities.Any(x => x == entity);
             if (!found)
             {
                 try
@@ -41,8 +44,10 @@ namespace MoviesDatabase.Repos
 
         public virtual async Task<(bool, string)> Delete(T entity)
         {
-            var result = await GetAll();
-            bool found = result.Any(x => x == entity);
+            (bool result, string message, ICollection<T> entities) = await GetAll();
+
+            if (!result) return (false, message);
+            bool found = entities.Any(x => x == entity);
             if (found)
             {
                 try
@@ -62,9 +67,15 @@ namespace MoviesDatabase.Repos
             }
         }
 
-        public virtual async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<(bool, string, ICollection<T>)> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            try
+            {
+                var items = await _context.Set<T>().ToListAsync();
+
+                return (true, "", items);
+            }
+            catch (Exception ex) { return (false, ex.Message, null); }
         }
 
         public virtual async Task<(bool, string, T?)> GetWithId(int id)
