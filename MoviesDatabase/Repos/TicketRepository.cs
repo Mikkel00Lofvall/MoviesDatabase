@@ -35,6 +35,7 @@ namespace MoviesDatabase.Repos
                         DateID = ticket.DateID,
                         ScheduleID = ticket.ScheduleID,
                         SeatID = ticket.SeatID,
+                        id = ticket.id,
                     };
 
                     ticketDTOs.Add(ticketDTO);
