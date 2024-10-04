@@ -7,12 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace MoviesDatabase.Repos
 {
     public class AdminUserRepository : Repository<AdminUserModel>, IAdminUserRepository
     {
-        public AdminUserRepository(ContextDB context) : base(context) { }
+        private readonly HasherService _hasherService;
+        public AdminUserRepository(ContextDB context, HasherService hash) : base(context) 
+        { 
+            _hasherService = hash;
+        }
 
         public async Task<(bool, string)> Delete(int id)
         {
@@ -34,15 +39,18 @@ namespace MoviesDatabase.Repos
         {
             try
             {
-                var adminUser = await _context.Set<AdminUserModel>()
-                            .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
 
-                if (adminUser != null)
+                var adminUser = await _context.Set<AdminUserModel>()
+                            .FirstOrDefaultAsync(u => u.Username == username);
+
+                (bool result, string message) = await _hasherService.Verify(username, adminUser.Password, password);
+
+                if (result == true)
                 {
                     return (true, "Admin user found.");
                 }
 
-                return (false, "Admin user not found.");
+                return (false, message);
 
             }
             catch (Exception ex) { return (false, ex.Message); }
@@ -71,6 +79,42 @@ namespace MoviesDatabase.Repos
                 return (true, "", DTOs);
             }
             catch (Exception ex) { return (true, ex.Message, null);  }
+        }
+
+        public async Task<(bool, string)> Create(string username, string password)
+        {
+            try
+            {
+                (bool result, string message, ICollection<AdminUserGetDTO> admins) = await GetAll();
+
+                if (!result) return (false, message);
+                bool found = admins.Any(x => x.Username == username);
+                if (!found)
+                {
+                    try
+                    {
+                        (result, message, AdminUserModel newUser) = await _hasherService.RegisterUser(username, password);
+                        if (result != true)
+                        {
+                            return (false, message);
+                        }
+                        _context.Set<AdminUserModel>().Update(newUser);
+                        await _context.SaveChangesAsync();
+
+                        return (true, "");
+                    }
+                    catch (Exception ex)
+                    {
+                        return (false, $"Failure: {ex}");
+                    }
+                }
+                else
+                {
+                    return (false, $"Failure: Already Exist in db!");
+                }
+
+            }
+            catch (Exception ex) { return (true, ex.Message); }
         }
     }
 }

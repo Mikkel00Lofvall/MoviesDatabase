@@ -72,6 +72,15 @@ namespace MoviesDatabase.Repos
 
                 foreach (ScheduleModel schedule in schedules) 
                 {
+
+                    var tickets = await _context.Set<TicketModel>()
+                        .Where(t => t.ScheduleID == schedule.id)
+                        .ToListAsync();
+
+                    foreach (TicketModel ticket in tickets)
+                    {
+                        _context.Tickets.Remove(ticket);
+                    }
                     _context.Dates.Remove(schedule.Date);
                     foreach (SeatModel Seat in schedule.Seats)
                     {
