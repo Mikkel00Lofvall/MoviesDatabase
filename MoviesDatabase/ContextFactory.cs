@@ -22,7 +22,7 @@ public class ContextDBFactory : IDesignTimeDbContextFactory<ContextDB>
     {
         if (_connectionString == null)
         {
-            this._connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MovieProject;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            this._connectionString = "your database connection string";
         }
         var optionsBuilder = new DbContextOptionsBuilder<ContextDB>();
         optionsBuilder.UseSqlServer(_connectionString);
